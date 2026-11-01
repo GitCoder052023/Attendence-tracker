@@ -135,7 +135,7 @@ export function DayEditor({ date }: { date: string }) {
         />
       ))}
 
-      {!isFuture && s.subjects.length > 0 ? <AddExtraClass date={date} subjects={s.subjects} /> : null}
+      {!isFuture && hasTimetable && s.subjects.length > 0 ? <AddExtraClass date={date} subjects={s.subjects} /> : null}
     </View>
   );
 }

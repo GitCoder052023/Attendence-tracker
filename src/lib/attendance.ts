@@ -109,4 +109,5 @@ export function formatPercent(p: number): string {
   return `${Number.isInteger(floored) ? floored : floored.toFixed(1)}%`;
 }
 
-export const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 's'}`;
+export const plural = (n: number, word: string) =>
+  `${n} ${n === 1 ? word : word.endsWith('s') ? `${word}es` : `${word}s`}`;
