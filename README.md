@@ -1,7 +1,7 @@
 # Attendance Tracker
 
 A simple attendance tracker for medical college students, built with Expo and Expo Router.
-All data stays on the phone (SQLite key-value store via `expo-sqlite/kv-store`).
+All data stays on the phone (SQLite key-value store via `expo-sqlite/kv-store`). Light mode only; see [DESIGN.md](DESIGN.md) for the visual system.
 
 ## What it does
 

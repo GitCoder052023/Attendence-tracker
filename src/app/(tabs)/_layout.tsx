@@ -1,17 +1,16 @@
 import { NativeTabs } from 'expo-router/native-tabs';
 
-import { useTheme } from '@/constants/theme';
+import { colors } from '@/theme';
 
 export default function TabLayout() {
-  const c = useTheme();
   return (
-    <NativeTabs tintColor={c.primary}>
-      <NativeTabs.Trigger name="index">
-        <NativeTabs.Trigger.Icon sf="checkmark.circle.fill" md="task_alt" />
+    <NativeTabs tintColor={colors.accent}>
+      <NativeTabs.Trigger name="(today)">
+        <NativeTabs.Trigger.Icon sf="checklist" md="checklist" />
         <NativeTabs.Trigger.Label>Today</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="overview">
-        <NativeTabs.Trigger.Icon sf="chart.bar.fill" md="bar_chart" />
+        <NativeTabs.Trigger.Icon sf="percent" md="percent" />
         <NativeTabs.Trigger.Label>Attendance</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="calendar">
@@ -19,7 +18,7 @@ export default function TabLayout() {
         <NativeTabs.Trigger.Label>Calendar</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="setup">
-        <NativeTabs.Trigger.Icon sf="gearshape.fill" md="settings" />
+        <NativeTabs.Trigger.Icon sf="tablecells" md="table_view" />
         <NativeTabs.Trigger.Label>Timetable</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
     </NativeTabs>

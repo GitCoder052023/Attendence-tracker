@@ -20,6 +20,9 @@ const ICONS = {
   bunk: { ios: 'figure.walk', android: 'directions_walk', web: 'directions_walk' },
   book: { ios: 'book.fill', android: 'menu_book', web: 'menu_book' },
   flask: { ios: 'testtube.2', android: 'science', web: 'science' },
+  checklist: { ios: 'checklist', android: 'checklist', web: 'checklist' },
+  percent: { ios: 'percent', android: 'percent', web: 'percent' },
+  table: { ios: 'tablecells', android: 'table_view', web: 'table_view' },
 } satisfies Record<string, SymbolViewProps['name']>;
 
 export type IconName = keyof typeof ICONS;

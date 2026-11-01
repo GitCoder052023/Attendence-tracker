@@ -1,28 +1,35 @@
-import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import { DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useColorScheme } from 'react-native';
 
-import { useTheme } from '@/constants/theme';
+import { colors } from '@/theme';
+
+const navTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: colors.ground,
+    card: colors.ground,
+    primary: colors.accent,
+    text: colors.ink,
+    border: colors.separator,
+  },
+};
 
 export default function RootLayout() {
-  const scheme = useColorScheme();
-  const c = useTheme();
-  const base = scheme === 'dark' ? DarkTheme : DefaultTheme;
-
   return (
-    <ThemeProvider
-      value={{
-        ...base,
-        colors: { ...base.colors, background: c.bg, card: c.card, primary: c.primary, text: c.text },
-      }}>
-      <StatusBar style="auto" />
-      <Stack screenOptions={{ contentStyle: { backgroundColor: c.bg } }}>
+    <ThemeProvider value={navTheme}>
+      <StatusBar style="dark" />
+      <Stack
+        screenOptions={{
+          headerShadowVisible: false,
+          headerStyle: { backgroundColor: colors.ground },
+          headerTintColor: colors.accent,
+          headerTitleStyle: { color: colors.ink },
+          contentStyle: { backgroundColor: colors.ground },
+        }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="day/[date]" options={{ title: '', headerBackTitle: 'Back' }} />
-        <Stack.Screen
-          name="holidays"
-          options={{ title: 'Add holidays', presentation: 'modal' }}
-        />
+        <Stack.Screen name="day/[date]" options={{ title: '', headerBackTitle: 'Calendar' }} />
+        <Stack.Screen name="holidays" options={{ title: 'Add holidays', presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>
   );

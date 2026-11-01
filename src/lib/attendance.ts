@@ -103,6 +103,24 @@ export function computeStat(
   return { attended, held, percent: (100 * attended) / held, ok, need, canBunk, projection };
 }
 
+/** The last `limit` counted marks (present or bunk) for a subject and type, oldest first. */
+export function recentMarks(
+  s: AppState,
+  subjectId: string,
+  type: ClassType,
+  limit: number,
+): ('present' | 'bunk')[] {
+  const marks: ('present' | 'bunk')[] = [];
+  for (const date of Object.keys(s.days).sort()) {
+    if (isHoliday(s, date)) continue;
+    for (const c of s.days[date]) {
+      if (c.subjectId !== subjectId || c.type !== type) continue;
+      if (c.status === 'present' || c.status === 'bunk') marks.push(c.status);
+    }
+  }
+  return marks.slice(-limit);
+}
+
 /** Rounds down so 74.9% never shows as 75%. */
 export function formatPercent(p: number): string {
   const floored = Math.floor(p * 10) / 10;

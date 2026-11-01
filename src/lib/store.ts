@@ -1,12 +1,14 @@
 import { useSyncExternalStore } from 'react';
 
+import { subjectColors } from '@/theme';
+
 import { weekday } from './dates';
 import { kv } from './kv';
 import type { AppState, ClassEntry, ClassStatus, ClassType, Subject, SubjectSchedule } from './types';
 
 const STORAGE_KEY = 'attendance-state-v1';
 
-export const SUBJECT_COLORS = ['#4F7CFF', '#A35BFF', '#F08C2E', '#14B8A6', '#EC4899', '#64748B'];
+export const SUBJECT_COLORS = subjectColors;
 export const MAX_SUBJECTS = SUBJECT_COLORS.length;
 
 const emptyWeek = () => [0, 0, 0, 0, 0, 0, 0];
@@ -33,7 +35,15 @@ function load(): AppState {
     const raw = kv.get(STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw) as AppState;
-      if (parsed?.version === 1 && Array.isArray(parsed.subjects)) return parsed;
+      if (parsed?.version === 1 && Array.isArray(parsed.subjects)) {
+        // Subjects saved with an older palette get the current swatch for their position.
+        parsed.subjects = parsed.subjects.map((sub, i) =>
+          SUBJECT_COLORS.includes(sub.color)
+            ? sub
+            : { ...sub, color: SUBJECT_COLORS[i % SUBJECT_COLORS.length] },
+        );
+        return parsed;
+      }
     }
   } catch {}
   return defaultState();
@@ -100,8 +110,10 @@ export function setClassStatus(date: string, classId: string, status: ClassStatu
   );
 }
 
-export function markWholeDay(date: string, status: ClassStatus) {
-  updateDay(date, (classes) => classes.map((c) => ({ ...c, status })));
+export function markWholeDay(date: string, status: ClassStatus, onlyUnmarked = false) {
+  updateDay(date, (classes) =>
+    classes.map((c) => (onlyUnmarked && c.status ? c : { ...c, status })),
+  );
 }
 
 export function addExtraClass(date: string, subjectId: string, type: ClassType) {
